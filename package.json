@@ -1,0 +1,12 @@
+{
+  "name": "f5-arduino-interactive-lab",
+  "private": true,
+  "version": "0.1.0",
+  "description": "F5 science Arduino and interactive system course materials",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": { "vitepress": "^1.6.4" }
+}
