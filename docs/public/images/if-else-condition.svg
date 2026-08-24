@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+ <title id="title">if else 條件判斷</title><desc id="desc">條件溫度高於二十六度時顯示通風提示，否則顯示溫度合適。</desc>
+ <rect width="1200" height="430" rx="28" fill="#f8f5ee"/><text x="70" y="82" fill="#172a3a" font-family="Microsoft JhengHei, sans-serif" font-size="36" font-weight="700">一個條件，兩種清楚的結果</text>
+ <g font-family="Microsoft JhengHei, sans-serif"><rect x="76" y="148" width="330" height="190" rx="20" fill="#fff0db"/><text x="110" y="208" fill="#b37a11" font-size="25" font-weight="700">問題</text><text x="110" y="270" fill="#172a3a" font-size="32" font-weight="700">temperature &gt; 26？</text><rect x="468" y="148" width="290" height="190" rx="20" fill="#fee9e3"/><text x="500" y="208" fill="#e6563a" font-size="25" font-weight="700">是</text><text x="500" y="270" fill="#172a3a" font-size="27" font-weight="700">建議通風</text><rect x="820" y="148" width="290" height="190" rx="20" fill="#e3f3ee"/><text x="852" y="208" fill="#2d988e" font-size="25" font-weight="700">否</text><text x="852" y="270" fill="#172a3a" font-size="27" font-weight="700">溫度合適</text></g>
+</svg>

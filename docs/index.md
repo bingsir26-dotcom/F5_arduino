@@ -2,43 +2,49 @@
 layout: home
 hero:
   name: 互動系統實驗室
-  text: 讓程式不只停留在畫面上
-  tagline: 從電路模擬、燈號控制到校園提示系統；你會用 Arduino 設計一個看得到、可測試、能解釋的互動裝置。
+  text: 先讓程式說話，再讓硬件回應
+  tagline: 先在 Serial Monitor 看見變數、判斷和循環的結果；再把同一套規則接到 LED、燈號與校園提示系統。
   actions:
     - theme: brand
       text: 從第 0 課開始
       link: /unit-0/lesson-00-code-controls-world
     - theme: alt
-      text: 看單元一作品
-      link: /unit-1-arduino-output/
+      text: 看單元一程式基礎
+      link: /unit-1-programming-basics/
 ---
 
 <div class="circuit-panel">
-  <div class="circuit-panel__top"><span>SIMULATION PANEL / UNIT 01</span><span>STATUS: READY</span></div>
+  <div class="circuit-panel__top"><span>ARDUINO LEARNING PATH</span><span>STATUS: READY</span></div>
   <div class="circuit-panel__body">
-    <div><small>01 / CIRCUIT</small><strong><i class="circuit-panel__dot red"></i>接好完整回路</strong></div>
-    <div><small>02 / CODE</small><strong><i class="circuit-panel__dot teal"></i>寫下控制規則</strong></div>
-    <div><small>03 / TEST</small><strong><i class="circuit-panel__dot"></i>在模擬中測試</strong></div>
-    <div><small>04 / EXPLAIN</small><strong><i class="circuit-panel__dot teal"></i>說清裝置怎樣回應</strong></div>
+    <div><small>01 / SEE</small><strong><i class="circuit-panel__dot teal"></i>在 Serial Monitor 看見結果</strong></div>
+    <div><small>02 / THINK</small><strong><i class="circuit-panel__dot"></i>用變數、if、循環寫規則</strong></div>
+    <div><small>03 / CONNECT</small><strong><i class="circuit-panel__dot red"></i>把程式接到 LED 與電路</strong></div>
+    <div><small>04 / TEST</small><strong><i class="circuit-panel__dot teal"></i>測試、修正並說清系統回應</strong></div>
   </div>
 </div>
 
 ## 這個課程在做甚麼？
 
-這不是把 Arduino 指令背下來的課。你會一步一步完成一個「**現實世界訊號 → 程式判斷 → 裝置回應**」的小系統。第一單元先用燈號練習輸出控制；下一個單元才把按鈕、光線或距離等感測輸入加入系統。
+Arduino 是把程式帶到現實世界的工具。不過初學者若一開始同時處理程式和接線，LED 不亮時很難知道問題在哪裡。這個課程會先讓程式把結果顯示在螢幕上，確定邏輯正確後，才把相同規則交給硬件執行。
 
-| 你會做的事 | 你會留下的成果 |
-| --- | --- |
-| 在 Tinkercad Circuits 連接虛擬電路 | 可運行的電路模擬 |
-| 用 Arduino 程式控制 LED | 有規則的燈號效果 |
-| 測試、找錯、修正 | 一條有根據的測試紀錄 |
-| 為校園情境設計提示裝置 | 可展示的專題作品 |
+| 先做甚麼 | 再做甚麼 | 你會留下的成果 |
+| --- | --- | --- |
+| 用 `Serial.println()` 看見結果 | 用 LED、電阻和 Arduino 呈現結果 | 可運行的 Tinkercad 模擬 |
+| 用變數保存資料、完成計算 | 用有意義的腳位名稱管理電路 | 易讀、易改的程式 |
+| 用 `if`、`for` 寫下規則 | 用燈號或節奏表達狀態 | 可展示的校園提示系統 |
+| 先在文字輸出找錯 | 再檢查元件、接線和腳位 | 有根據的測試紀錄 |
 
-## 單元一：讓裝置動起來
+## 單元一：先讓程式說話
 
-第一單元的最後作品是「**校園提示系統**」。學生自行選擇一個校園情境，例如圖書館安靜提示、實驗室安全提示、活動開始提示或走廊通行提示，以三盞 LED 顯示清楚的狀態。
+你會在 Tinkercad Circuits 中，只使用 Arduino Uno 和 Serial Monitor，練習三個最重要的程式工具：**變數、條件判斷、循環**。最後完成一個把資料變成文字結果的「課室環境狀態報告」。
 
-[查看單元地圖與作品要求 →](/unit-1-arduino-output/)
+[查看單元一課程地圖與作品要求 →](/unit-1-programming-basics/)
+
+## 單元二：讓硬件回應程式
+
+程式規則確認後，才加入 LED、電阻和導線。你會把「正常／注意／停止」等文字狀態，改成人人看得見的燈號，最後完成「校園提示系統」。
+
+[查看單元二課程地圖與作品要求 →](/unit-2-hardware-output/)
 
 ::: tip 上課投影
 需要較大的閱讀版面時，按右上角 **隱藏導覽**；按 **Esc 返回**。

@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: '互動系統實驗室',
-  description: '高二理科：從一盞燈開始，設計會回應的 Arduino 系統',
+  description: '高二理科：先用程式看見結果，再用 Arduino 控制硬件',
   base: '/F5_arduino/',
   lang: 'zh-Hant',
   lastUpdated: true,
@@ -13,22 +13,32 @@ export default defineConfig({
     nav: [
       { text: '課程首頁', link: '/' },
       { text: '第 0 課開始', link: '/unit-0/lesson-00-code-controls-world' },
+      { text: '單元一：程式基礎', link: '/unit-1-programming-basics/' },
+      { text: '單元二：硬件輸出', link: '/unit-2-hardware-output/' },
       { text: '實驗資源', link: '/resources/' }
     ],
     sidebar: [
       { text: '課程導入', collapsed: false, items: [
         { text: '第 0 課：程式如何控制現實世界？', link: '/unit-0/lesson-00-code-controls-world' }
       ] },
-      { text: '單元一：讓裝置動起來', collapsed: false, items: [
-        { text: '單元地圖與作品', link: '/unit-1-arduino-output/' },
-        { text: '第 1 課：第一個電路模擬', link: '/unit-1-arduino-output/lesson-01-first-circuit-simulation' },
-        { text: '第 2 課：讓 LED 安全亮起來', link: '/unit-1-arduino-output/lesson-02-safe-led-circuit' },
-        { text: '第 3 課：讓 Arduino 控制一盞燈', link: '/unit-1-arduino-output/lesson-03-control-one-led' },
-        { text: '第 4 課：讓燈按節奏工作', link: '/unit-1-arduino-output/lesson-04-blink-with-timing' },
-        { text: '第 5 課：三盞燈，一個交通燈系統', link: '/unit-1-arduino-output/lesson-05-traffic-light-states' },
-        { text: '第 6 課：讓程式更容易修改', link: '/unit-1-arduino-output/lesson-06-name-your-pins' },
-        { text: '第 7 課：裝置不動時，怎樣找問題？', link: '/unit-1-arduino-output/lesson-07-debug-circuit' },
-        { text: '第 8 課：設計一個校園提示系統', link: '/unit-1-arduino-output/lesson-08-campus-alert-project' }
+      { text: '單元一：先讓程式說話', collapsed: false, items: [
+        { text: '單元地圖與作品', link: '/unit-1-programming-basics/' },
+        { text: '第 1 課：讓 Arduino 在螢幕上說話', link: '/unit-1-programming-basics/lesson-01-serial-output' },
+        { text: '第 2 課：用變數保存和計算資料', link: '/unit-1-programming-basics/lesson-02-variables-and-calculation' },
+        { text: '第 3 課：用 if 讓程式按情況決定', link: '/unit-1-programming-basics/lesson-03-if-else' },
+        { text: '第 4 課：用循環重複有規律的工作', link: '/unit-1-programming-basics/lesson-04-for-loop' },
+        { text: '第 5 課：完成一個課室環境狀態報告', link: '/unit-1-programming-basics/lesson-05-status-report' }
+      ] },
+      { text: '單元二：讓硬件回應程式', collapsed: false, items: [
+        { text: '單元地圖與作品', link: '/unit-2-hardware-output/' },
+        { text: '第 6 課：第一個電路模擬', link: '/unit-2-hardware-output/lesson-01-first-circuit-simulation' },
+        { text: '第 7 課：讓 LED 安全亮起來', link: '/unit-2-hardware-output/lesson-02-safe-led-circuit' },
+        { text: '第 8 課：讓 Arduino 控制一盞燈', link: '/unit-2-hardware-output/lesson-03-control-one-led' },
+        { text: '第 9 課：讓燈按節奏工作', link: '/unit-2-hardware-output/lesson-04-blink-with-timing' },
+        { text: '第 10 課：三盞燈，一個交通燈系統', link: '/unit-2-hardware-output/lesson-05-traffic-light-states' },
+        { text: '第 11 課：讓程式更容易修改', link: '/unit-2-hardware-output/lesson-06-name-your-pins' },
+        { text: '第 12 課：裝置不動時，怎樣找問題？', link: '/unit-2-hardware-output/lesson-07-debug-circuit' },
+        { text: '第 13 課：設計一個校園提示系統', link: '/unit-2-hardware-output/lesson-08-campus-alert-project' }
       ] },
       { text: '實驗資源與作品', collapsed: true, items: [
         { text: '實驗資源', link: '/resources/' },
@@ -43,4 +53,3 @@ export default defineConfig({
     lastUpdated: { text: '更新日期' }
   }
 })
-

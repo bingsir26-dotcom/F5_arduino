@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+ <title id="title">Arduino 程式輸出到 Serial Monitor</title><desc id="desc">Arduino 程式與 Serial Monitor 顯示結果的示意圖。</desc>
+ <rect width="1200" height="500" rx="28" fill="#f8f5ee"/>
+ <text x="74" y="85" fill="#172a3a" font-family="Microsoft JhengHei, sans-serif" font-size="37" font-weight="700">先在螢幕看見程式結果</text>
+ <g font-family="Consolas, Microsoft JhengHei, monospace">
+   <rect x="76" y="140" width="500" height="280" rx="20" fill="#172a3a"/><circle cx="112" cy="174" r="9" fill="#e6563a"/><circle cx="140" cy="174" r="9" fill="#e7ad38"/><circle cx="168" cy="174" r="9" fill="#2d988e"/>
+   <text x="112" y="238" fill="#9bdbd5" font-size="26">void setup() {</text><text x="142" y="282" fill="#f8f5ee" font-size="25">Serial.begin(9600);</text><text x="142" y="326" fill="#f8f5ee" font-size="25">Serial.println("你好");</text><text x="112" y="370" fill="#9bdbd5" font-size="26">}</text>
+   <rect x="660" y="140" width="464" height="280" rx="20" fill="#fffdf8" stroke="#d8d0c1" stroke-width="3"/><text x="700" y="198" fill="#5d6870" font-family="Microsoft JhengHei, sans-serif" font-size="21" font-weight="700">SERIAL MONITOR</text><line x1="700" y1="220" x2="1082" y2="220" stroke="#d8d0c1" stroke-width="2"/><text x="700" y="286" fill="#172a3a" font-size="30">你好</text><text x="700" y="340" fill="#2d988e" font-family="Microsoft JhengHei, sans-serif" font-size="22">這是程式顯示的結果</text>
+ </g>
+</svg>
