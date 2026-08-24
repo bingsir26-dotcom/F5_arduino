@@ -64,6 +64,3 @@ Tinkercad 的程式區可切換 **Blocks**、**Blocks + Text** 和 **Text**。
 
 1. 為甚麼第一課不要求 LED 立即亮起？
 2. 你會用哪一個按鈕開始模擬？
-
-
-
