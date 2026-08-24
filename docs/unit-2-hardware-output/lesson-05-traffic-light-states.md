@@ -1,94 +1,102 @@
-# 第 10 課：三盞燈，一個交通燈系統
+# 第 12 課：三盞燈，一個清楚的狀態系統
 
 ## 今課可以做到甚麼？
 
-- 同時控制三個不同的輸出腳位。
-- 用「狀態」整理燈號，而不是只把指令堆在一起。
-- 完成綠、黃、紅三種狀態按順序切換的交通燈。
+- 用三盞 LED 表示「通行／準備／停止」三種狀態。
+- 確保每次只亮起一種狀態，避免訊息混亂。
+- 用三個函式整理不同燈號的工作。
 
 ## 開始前：想一想
 
-如果三盞燈同時亮，路人未必知道應該怎樣做。交通燈的重點不是有三種顏色，而是每一種狀態都代表一個清楚的意思。
+交通燈最重要的不是三種顏色，而是每個人一眼知道現在應該做甚麼。假如紅綠燈同時亮，訊息會變得怎樣？今天會把「一種狀態、一個清楚回應」寫成程式規則。
 
-你會怎樣安排「可以通行、準備轉換、必須停止」的先後？
+## 三個狀態，三句人話
 
-## 新概念：用狀態表示規則
+| 狀態函式 | 燈號 | 人看到後的意思 |
+| --- | --- | --- |
+| `showGo()` | 綠燈 | 可以通行／可以進入 |
+| `showWait()` | 黃燈 | 即將轉換，請準備 |
+| `showStop()` | 紅燈 | 暫停，請等候 |
 
-![交通燈三種狀態](/images/traffic-light-states.svg)
+<div class="tinkercad-shot" role="note">
+  <span class="tinkercad-shot__tag">待補 Tinkercad 截圖 E</span>
+  <strong>三色 LED 狀態系統</strong>
+  <p>拍出 Arduino、三盞 LED、三個電阻和 GND。可選擇黃燈或紅燈亮起的一刻，但要清楚看見其他兩盞熄滅。</p>
+  `建議檔名：lesson-12-three-status-leds.png`
+</div>
 
-先把腳位分配好：綠燈 8、黃燈 9、紅燈 10。每一次只讓一種狀態出現，完成一個狀態後才轉到下一個。
+## 跟著做：交通燈的三種狀態
 
-| 狀態 | 綠燈 | 黃燈 | 紅燈 | 意思 |
-| --- | --- | --- | --- | --- |
-| 通行 | 亮 | 熄 | 熄 | 可以通行 |
-| 準備 | 熄 | 亮 | 熄 | 即將改變 |
-| 停止 | 熄 | 熄 | 亮 | 請停下 |
+綠、黃、紅三盞 LED 分別接到 D8、D9、D10；每盞 LED 都有自己的電阻並回到 GND。
 
-## 跟著做：三燈輪流
+~~~cpp
+const int goLed = 8;
+const int waitLed = 9;
+const int stopLed = 10;
 
-```cpp
-const int greenLed = 8;
-const int yellowLed = 9;
-const int redLed = 10;
+void showGo() {
+  digitalWrite(goLed, HIGH);
+  digitalWrite(waitLed, LOW);
+  digitalWrite(stopLed, LOW);
+}
+
+void showWait() {
+  digitalWrite(goLed, LOW);
+  digitalWrite(waitLed, HIGH);
+  digitalWrite(stopLed, LOW);
+}
+
+void showStop() {
+  digitalWrite(goLed, LOW);
+  digitalWrite(waitLed, LOW);
+  digitalWrite(stopLed, HIGH);
+}
 
 void setup() {
-  pinMode(greenLed, OUTPUT);
-  pinMode(yellowLed, OUTPUT);
-  pinMode(redLed, OUTPUT);
+  pinMode(goLed, OUTPUT);
+  pinMode(waitLed, OUTPUT);
+  pinMode(stopLed, OUTPUT);
 }
 
 void loop() {
-  digitalWrite(greenLed, HIGH);
-  digitalWrite(yellowLed, LOW);
-  digitalWrite(redLed, LOW);
+  showGo();
   delay(3000);
-
-  digitalWrite(greenLed, LOW);
-  digitalWrite(yellowLed, HIGH);
-  digitalWrite(redLed, LOW);
+  showWait();
   delay(1000);
-
-  digitalWrite(greenLed, LOW);
-  digitalWrite(yellowLed, LOW);
-  digitalWrite(redLed, HIGH);
+  showStop();
   delay(3000);
 }
-```
+~~~
 
-先把程式跑起來，再逐段對照表格。你會看到每段都是「設定三盞燈 → 等待」，這就是一個狀態。
+**預期效果：** 綠燈 3 秒 → 黃燈 1 秒 → 紅燈 3 秒，持續重複；每一刻只亮一盞燈。
 
-## 再試一次：改變狀態時間
+## 再試一次：改變狀態的用途
 
-只改時間，不改燈號規則：
-
-- 綠燈由 3 秒改為 5 秒。
-- 黃燈保持 1 秒。
-- 紅燈由 3 秒改為 4 秒。
-
-觀察整個循環變長後，系統的使用感覺有甚麼不同。
+程式結構不變，把三種狀態改成「圖書館安靜提示」：`showQuiet()`、`showReminder()`、`showDoNotEnter()`。改名不是為了好看，而是讓程式和作品情境一致。
 
 ## 易錯位
 
 | ✕ 錯誤 | 為甚麼 | 修正方法 |
 | --- | --- | --- |
-| 轉到紅燈時綠燈仍亮 | 忘記先把綠燈設為 `LOW` | 每個狀態都寫清楚三盞燈的狀態 |
-| 三盞 LED 都接在同一腳位 | 程式不能分開控制 | 每盞 LED 使用不同腳位 |
-| 只寫「亮哪盞」，沒有寫「熄哪盞」 | 上一個狀態可能仍保留 | 每段同時寫亮與熄 |
-| 三盞燈顏色與程式名稱不一致 | 接線和程式對不起來 | 重新核對腳位與名稱 |
+| 只寫要亮的燈，沒關其他燈 | 上一個狀態的輸出可能仍保持開啟 | 每個函式都設定三盞燈 |
+| 三盞 LED 共用電阻 | 不能清楚保護和控制每盞燈 | 每盞 LED 各用一個電阻 |
+| 只把呼叫位置改成新名稱 | 函式宣告仍是舊名 | 同時改函式宣告與呼叫位置 |
+| 三種燈號沒有文字意思 | 觀眾看不懂作品規則 | 為每個狀態寫一句人話 |
 
 ## 你來做
 
-- **基礎題**：照表格完成三燈系統。
-- **標準題**：把「停止」狀態改為 4 秒，並記錄改了哪一行。
-- **挑戰題**：加一個「全熄」狀態，作為系統啟動時的檢查畫面。
+- **基礎題**：完成三燈交通燈，確保一次只亮一盞。
+- **標準題**：修改三種狀態的時間，寫下改動理由。
+- **挑戰題**：改成校園情境，並替三個函式取符合情境的名字。
 
 ## 本課小結
 
-- 多個輸出要先分配不同的腳位。
-- 狀態是「一組同時成立的燈號規則」。
-- 每個狀態都要明確寫出哪些燈亮、哪些燈熄。
+- 狀態系統的重點是每個狀態有清楚意思。
+- 每個狀態都要同時設定哪盞亮、哪盞熄。
+- 函式可把複雜燈號規則整理成容易閱讀的名稱。
 
 ## 離堂前 3 分鐘
 
-1. 為甚麼不能只寫「紅燈亮」，而不寫綠燈和黃燈？
-2. 如果紅燈接在 10 號腳位，程式哪一處需要使用 10？
+1. 為甚麼 showGo() 內也要寫黃燈與紅燈熄滅？
+2. showWait() 代表甚麼意思？
+3. 若改成圖書館提示，三個狀態可以怎樣命名？

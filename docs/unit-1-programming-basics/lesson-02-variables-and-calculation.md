@@ -2,95 +2,87 @@
 
 ## 今課可以做到甚麼？
 
-- 用 `int` 建立整數變數保存資料。
-- 把變數內容顯示在 Serial Monitor。
-- 讓 Arduino 根據變數完成一個簡單計算。
+- 讓 Arduino 保存座位數、溫度等資料，再在 Serial Monitor 顯示。
+- 用變數完成計算，不必每次手算答案。
+- 分辨整數 `int` 和可保存小數的 `float`。
 
 ## 開始前：想一想
 
-如果課室今天有 28 個座位、已經坐了 23 人，程式怎樣知道還有多少個空位？
-
-你可以直接在很多地方寫數字，但日後人數改變時，很容易漏改。較好的做法是先替每個資料取一個清楚的名字。
+如果課室有 28 個座位、已坐了 23 人，程式怎樣知道還有多少空位？直接在很多地方寫數字，日後人數改變時很容易漏改。較好的做法是先替每個資料取一個清楚名字。
 
 ## 把資料交給程式記住
 
 ![變數、計算與文字輸出](/images/variables-and-output.svg)
 
-`int` 用來保存整數。變數就像貼上名稱的資料格：例如 `totalSeats` 保存總座位數，`usedSeats` 保存已使用座位數。程式可以之後再讀取、計算和顯示它們。
+`int` 用來保存人數、座位數等整數；`float` 用來保存 `28.5` 度等帶小數資料。變數讓程式可以之後再讀取、計算和顯示它。
 
-## 跟著做：顯示課室座位資料
+## 跟著做：顯示課室資料
 
-```cpp
+~~~cpp
 int totalSeats = 28;
 int usedSeats = 23;
 int emptySeats = totalSeats - usedSeats;
+float temperature = 28.5;
 
 void setup() {
   Serial.begin(9600);
-
   Serial.print("空位數：");
   Serial.println(emptySeats);
+  Serial.print("課室溫度：");
+  Serial.println(temperature);
 }
 
 void loop() {
 }
-```
+~~~
 
 **預期輸出：**
 
-```text
+~~~text
 空位數：5
-```
+課室溫度：28.50
+~~~
 
-逐行看：
-
-- `int totalSeats = 28;`：建立名為 `totalSeats` 的整數變數，先存入 28。
-- `int usedSeats = 23;`：建立第二個變數，存入 23。
-- `int emptySeats = totalSeats - usedSeats;`：用前兩個變數計算空位數。
-- `Serial.print(...)`：顯示文字，但先不換行。
-- `Serial.println(emptySeats);`：接著顯示變數的數值，然後換行。
+- `int emptySeats = totalSeats - usedSeats;`：用前兩個變數計算空位。
+- `float temperature = 28.5;`：保存可有小數的資料。
+- `Serial.print()` 先顯示文字；`Serial.println()` 再顯示資料並換行。
 
 ## 再試一次：只改資料，不改公式
 
-把這一行：
-
-```cpp
-int usedSeats = 23;
-```
-
-改成：
-
-```cpp
+~~~cpp
 int usedSeats = 26;
-```
+float temperature = 25.0;
+~~~
 
-**預期輸出：** `空位數：2`
+空位數會自動變成 `2`。你沒有修改計算式，程式仍能得出新結果。
 
-公式沒有改，程式會按新的資料重新算出結果。這正是變數的用途：資料改變時，不用把每個答案手動重寫。
+::: tip 先記住這個選擇
+人數、次數、腳位編號通常用 `int`；溫度、距離、電壓等可能有小數的資料，日後常用 `float`。
+:::
 
 ## 易錯位
 
 | ✕ 錯誤 | 原因 | 修正方法 |
 | --- | --- | --- |
-| `total seats` 中間有空格 | 變數名稱不能有空格 | 用 `totalSeats` 或 `total_seats` |
-| 寫成 `Int` | Arduino/C++ 區分大小寫 | 用小寫 `int` |
-| 把 `emptySeats` 寫成 `emptySeat` | 名稱不一致，程式找不到資料 | 同一個變數要完全同名 |
-| 寫成 `Serial.println("emptySeats");` | 雙引號內會被當成文字 | 要顯示數值時寫 `Serial.println(emptySeats);` |
+| `int temperature = 28.5;` | `int` 不能完整保存小數 | 改為 `float temperature = 28.5;` |
+| 變數名稱前後大小寫不同 | `usedSeats` 和 `usedseats` 是兩個名字 | 全程使用同一個名稱 |
+| 一行完整指令後少了 `;` | Arduino 看不出一行指令何時結束 | 每行完整指令最後加分號 |
+| `Serial.println("emptySeats");` | 引號內是文字 | 寫成 `Serial.println(emptySeats);` |
 
 ## 你來做
 
-- **基礎題**：建立 `temperature` 變數並顯示「目前溫度：」和數值。
-- **標準題**：建立 `price` 和 `quantity`，計算並顯示總價。
-- **挑戰題**：把課室座位例子改成圖書館座位例子，要求只改變數值和文字，不改計算公式。
+- **基礎題**：建立 `studentCount`，顯示班內學生人數。
+- **標準題**：建立總座位、已用座位和空位三個變數。
+- **挑戰題**：加入 `float humidity = 65.5;`，顯示濕度。
 
 ## 本課小結
 
-- `int` 可保存整數資料。
-- 變數名稱要清楚、不能有空格，而且區分大小寫。
-- 先保存資料，再用公式計算，比重複手寫答案更容易修改。
+- 變數讓資料有名稱，方便日後修改和計算。
+- `int` 保存整數；`float` 保存小數。
+- `Serial.print()` 和 `Serial.println()` 可把文字與資料連在一起顯示。
 
 ## 離堂前 3 分鐘
 
-1. `int score = 80;` 中，變數名稱是哪一部分？
-2. 怎樣顯示變數 `score` 的數值，而不是文字 `score`？
-3. 若 `total = 10`、`used = 6`，`total - used` 是多少？
+1. `28.5` 較適合用 `int` 還是 `float`？
+2. 若 `usedSeats` 由 23 改為 26，空位數是多少？
+3. 為甚麼 `Serial.println("emptySeats");` 不會顯示計算結果？

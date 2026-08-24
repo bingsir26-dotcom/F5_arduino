@@ -1,76 +1,94 @@
-# 第 8 課：讓 Arduino 控制一盞燈
+# 第 10 課：把 if 的結果變成兩種燈號
 
 ## 今課可以做到甚麼？
 
-- 用程式讓 Arduino 決定 LED 亮起或熄滅。
-- 使用 `pinMode()` 設定輸出腳位。
-- 使用 `digitalWrite()` 輸出 `HIGH` 或 `LOW`。
+- 把單元一的 `if ... else` 規則直接改成硬件輸出。
+- 用紅燈與綠燈表示兩種不同狀態。
+- 同時在 Serial Monitor 和 LED 檢查程式結果。
 
 ## 開始前：想一想
 
-上一課的 LED 一接上 5V 就一直亮。假如你想指定「現在亮」或「現在熄」，誰來替你改變電路狀態？
+如果程式判斷「溫度偏高而且課室有人」，只亮紅燈；否則只亮綠燈。你怎樣確保紅燈亮時，綠燈真的熄滅？
 
-答案是 Arduino 的數位腳位。程式可以把它設定為輸出，然後送出高或低的電平。
+## 先畫出狀態規則
 
-## 新概念：數位輸出
+| 條件 | Serial Monitor 顯示 | LED 回應 |
+| --- | --- | --- |
+| 溫度 > 26，而且有人使用 | 狀態：建議通風 | 紅燈亮、綠燈熄 |
+| 其他情況 | 狀態：暫時合適 | 綠燈亮、紅燈熄 |
 
-![程式控制數位腳位](/images/digital-output.svg)
+<div class="tinkercad-shot" role="note">
+  <span class="tinkercad-shot__tag">待補 Tinkercad 截圖 C</span>
+  <strong>紅、綠兩盞 LED 的狀態畫面</strong>
+  <p>拍一個紅燈亮、綠燈熄的運行畫面；程式窗最好能看見條件判斷。</p>
+  `建議檔名：lesson-10-if-to-two-leds.png`
+</div>
 
-本課把 LED 的正極改接到 **8 號腳位**，LED 負極仍經電阻回到 GND。`HIGH` 可先理解成「這個腳位輸出開啟訊號」，`LOW` 是「輸出關閉訊號」。
+## 跟著做：讓條件控制兩盞燈
 
-## 跟著做：亮燈
+兩盞 LED 分別接到 D8 和 D9，每盞燈都要各有一個電阻並回到 GND。
 
-```cpp
+~~~cpp
+const int normalLed = 8;
+const int warningLed = 9;
+float temperature = 28.5;
+bool classInUse = true;
+
 void setup() {
-  pinMode(8, OUTPUT);
-  digitalWrite(8, HIGH);
+  Serial.begin(9600);
+  pinMode(normalLed, OUTPUT);
+  pinMode(warningLed, OUTPUT);
+
+  if (temperature > 26 && classInUse) {
+    Serial.println("狀態：建議通風");
+    digitalWrite(normalLed, LOW);
+    digitalWrite(warningLed, HIGH);
+  } else {
+    Serial.println("狀態：暫時合適");
+    digitalWrite(normalLed, HIGH);
+    digitalWrite(warningLed, LOW);
+  }
 }
 
 void loop() {
 }
-```
+~~~
 
-**預期效果：** 開始模擬後，LED 亮起並保持亮著。
+**預期效果：** 溫度 28.5、課室有人時，顯示「建議通風」，紅燈亮、綠燈熄。
 
-逐行看：
+## 再試一次：測試另一種狀態
 
-- `void setup()`：模擬開始時先執行一次的地方。
-- `pinMode(8, OUTPUT);`：告訴 Arduino，8 號腳位要負責輸出訊號。
-- `digitalWrite(8, HIGH);`：把 8 號腳位設為高電平，讓 LED 亮起。
-- `void loop()`：之後會不斷重複的地方；目前還沒有需要重複做的事。
+只改：
 
-## 再試一次：熄燈
+~~~cpp
+float temperature = 25.0;
+~~~
 
-只改一個字：把 `HIGH` 改成 `LOW`。
-
-```cpp
-  digitalWrite(8, LOW);
-```
-
-**預期效果：** LED 熄滅。程式、接線和腳位號碼不變，只有輸出狀態改變。
+預期：顯示「暫時合適」，綠燈亮、紅燈熄。先預測結果，再開始模擬檢查。
 
 ## 易錯位
 
 | ✕ 錯誤 | 為甚麼 | 修正方法 |
 | --- | --- | --- |
-| LED 接在 8 號腳位，程式卻寫 9 | 電路和程式不一致 | 兩邊統一使用同一個腳位 |
-| 忘記 `pinMode()` | Arduino 未知道這是輸出腳位 | 在 `setup()` 先設為 `OUTPUT` |
-| 把 `HIGH` 寫成 `High` | 程式區分大小寫 | 使用全大寫 `HIGH`、`LOW` |
-| 把 `digitalWrite()` 放錯大括號外 | 指令不在函式內 | 確認每行指令位於 `setup()` 或 `loop()` 內 |
+| 只亮紅燈，忘記關綠燈 | 上一次的輸出可能仍保留 | 每個狀態都明確設定兩盞燈 |
+| 兩盞 LED 共用一個電阻 | 難以保護和控制每盞燈 | 每盞 LED 各有一個電阻 |
+| 只看 LED，不看文字 | 看不出程式判斷是否正確 | 同時保留狀態文字作證據 |
+| 以為 `&&` 代表任何一項成立 | `&&` 要兩項都成立 | 對照第 3 課條件意思 |
 
 ## 你來做
 
-- **基礎題**：讓 8 號腳位控制一盞 LED 亮起。
-- **標準題**：把 LED 改接到 7 號腳位，並同步修改程式。
-- **挑戰題**：用自己的話解釋 `pinMode()` 與 `digitalWrite()` 的分工。
+- **基礎題**：完成「高溫亮紅燈；否則亮綠燈」。
+- **標準題**：加入 `classInUse`，只有有人使用時才啟動紅燈。
+- **挑戰題**：把名稱改成符合圖書館或實驗室的情境。
 
 ## 本課小結
 
-- Arduino 的數位腳位可以由程式控制輸出。
-- `pinMode()` 先定義腳位用途；`digitalWrite()` 才設定狀態。
-- 接線腳位與程式腳位必須完全一致。
+- 同一條 if 規則可同時控制文字和硬件。
+- 每個狀態要明確寫出哪些輸出開啟、哪些關閉。
+- Serial Monitor 是硬件實作中的程式檢查證據。
 
 ## 離堂前 3 分鐘
 
-1. `OUTPUT` 表示 Arduino 要接收訊號，還是送出訊號？
-2. 想讓 LED 熄滅，要把哪個字改成甚麼？
+1. 紅燈亮時，為甚麼仍要寫一行把綠燈關閉？
+2. 溫度 25.0 時，應亮哪一盞燈？
+3. `&&` 要求哪兩件事同時成立？

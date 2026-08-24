@@ -5,6 +5,10 @@
 - [Tinkercad Circuits](https://www.tinkercad.com/circuits)：線上建立 Arduino 電路模擬與撰寫程式。
 - [Arduino Language Reference](https://docs.arduino.cc/language-reference/)：日後想查 `pinMode()`、`digitalWrite()` 等指令時使用；本單元不需要先讀完。
 
+## 教師準備：Tinkercad 真實截圖
+
+單元二已為真實 Tinkercad 畫面預留位置。拍圖前可先看〈[Tinkercad 截圖清單](/resources/tinkercad-screenshot-list)〉：它列出每一張要拍甚麼、建議檔名，以及放入網站的方法。
+
 ## 學生交付前檢查
 
 ![除錯檢查圖](/images/debug-check.svg)

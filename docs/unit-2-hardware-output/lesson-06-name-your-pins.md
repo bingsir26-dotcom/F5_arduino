@@ -1,77 +1,85 @@
-# 第 11 課：讓程式更容易修改
+# 第 13 課：讓程式和接線都容易修改
 
 ## 今課可以做到甚麼？
 
-- 用 `const int` 為腳位資料設定名稱。
-- 修改接線時，只改一個地方就能更新程式。
-- 由變數名稱讀懂一段 Arduino 程式在控制甚麼。
+- 用有意義的名稱管理 Arduino 腳位與狀態。
+- 把「設定腳位」與「顯示狀態」分開整理。
+- 修改接線時，只在設定區更新一次程式。
 
 ## 開始前：想一想
 
-如果一段程式有十多次 `digitalWrite(8, ...)`，後來你把綠燈改接到 6 號腳位，要逐行找出所有 `8` 嗎？
+一段程式到處都是 8、9、10。幾星期後你還記得每個數字代表哪一盞燈嗎？如果把紅燈從 D10 改到 D11，要逐行找所有 10 嗎？
 
-當數字代表某一個意義時，為它取一個名字，程式會更容易閱讀和修改。
+程式應該讓人看得出「它在做甚麼」，而不只讓電腦勉強能運行。
 
-## 新概念：給腳位貼上標籤
+## 兩個整理原則
+
+1. **接線設定集中在最上方**：例如 `const int warningLed = 9;`。
+2. **狀態工作用函式命名**：例如 `showWarning()`，不要在各處散落一大串 `digitalWrite()`。
 
 ![腳位名稱與電路對應](/images/pin-names.svg)
 
-```cpp
-const int greenLed = 8;
-```
+## 跟著做：整理兩燈狀態程式
 
-這句話把 `greenLed` 設定成 8。之後寫 `digitalWrite(greenLed, HIGH)`，讀者看見的是「讓綠燈亮」，不用先猜 8 代表甚麼。
+~~~cpp
+const int normalLed = 8;
+const int warningLed = 9;
 
-`const` 表示這個設定值不應在程式中被改動；`int` 表示它是整數。
+void showNormal() {
+  digitalWrite(normalLed, HIGH);
+  digitalWrite(warningLed, LOW);
+}
 
-## 跟著做：把魔法數字改成名稱
-
-```cpp
-const int greenLed = 8;
-const int yellowLed = 9;
-const int redLed = 10;
+void showWarning() {
+  digitalWrite(normalLed, LOW);
+  digitalWrite(warningLed, HIGH);
+}
 
 void setup() {
-  pinMode(greenLed, OUTPUT);
-  pinMode(yellowLed, OUTPUT);
-  pinMode(redLed, OUTPUT);
+  pinMode(normalLed, OUTPUT);
+  pinMode(warningLed, OUTPUT);
+  showWarning();
 }
-```
 
-程式的行為沒有改變，但讀者更容易知道每個腳位的用途。
+void loop() {
+}
+~~~
 
-## 再試一次：修改一個接線設定
+現在讀者一眼就知道：`showWarning()` 是警示狀態，而 `warningLed` 接在 9 號腳位。
 
-把綠燈由 8 號腳位改到 6 號腳位，只修改這一行：
+## 再試一次：只改一個設定
 
-```cpp
-const int greenLed = 6;
-```
+假如把警示燈實際移到 D11，只改最上方：
 
-只要電路也同步改線，其餘控制綠燈的程式不用逐行修改。
+~~~cpp
+const int warningLed = 11;
+~~~
+
+然後把 Tinkercad 導線同步移到 D11。`pinMode()`、`digitalWrite()` 和 `showWarning()` 都不用逐行尋找數字修改。
 
 ## 易錯位
 
 | ✕ 錯誤 | 為甚麼 | 修正方法 |
 | --- | --- | --- |
-| 名稱寫成 `green led` | 變數名稱不能有空格 | 用 `greenLed` 或 `green_led` |
-| 宣告名稱是 `greenLed`，使用時寫 `greenLED` | 英文字母大小寫不同 | 全程使用同一個名稱 |
-| 仍然到處混用 8 和 `greenLed` | 容易漏改或誤用 | 腳位設定集中在程式開頭 |
-| 把 `const int` 放進 `loop()` | 每次重複宣告沒有必要 | 放在函式外，成為整段程式的設定 |
+| 名稱寫成 `warning led` | 變數名稱不能有空格 | 使用 `warningLed` 或 `warning_led` |
+| 宣告 `warningLed`，使用 `warningLED` | 大小寫不同是不同名稱 | 統一使用同一種拼寫 |
+| 只改程式設定，不改接線 | Arduino 會輸出到另一個腳位 | 每次都用程式設定＋導線成對檢查 |
+| 為每一行都寫長註解 | 反而難讀 | 用好名稱與少量說明意圖的註解 |
 
 ## 你來做
 
-- **基礎題**：為三盞 LED 加上名稱。
-- **標準題**：把紅燈移到 11 號腳位，只改設定和接線。
-- **挑戰題**：替「圖書館安靜提示」設計 `quietLed`、`busyLed` 等名稱。
+- **基礎題**：把三燈程式中的所有腳位數字改為有意義的名稱。
+- **標準題**：把一盞 LED 移到新腳位，只改設定區和接線。
+- **挑戰題**：替實驗室入口提示設計 safeToEnterLed、pleaseWaitLed、doNotEnterLed 等名稱。
 
 ## 本課小結
 
-- 名稱把數字變成有意思的設定。
-- `const int` 適合保存不應在程式中改變的腳位編號。
-- 好名稱能減少修改錯誤，也讓別人較容易接手你的程式。
+- 好名稱把數字變成可理解的設定。
+- 接線設定集中，可減少修改時漏改。
+- 函式名稱應表達狀態意思，而不只描述顏色。
 
 ## 離堂前 3 分鐘
 
-1. `greenLed` 代表什麼？
-2. 如果只改了程式的腳位名稱，但沒有改電路，可能會發生甚麼？
+1. const int warningLed = 9; 的 9 代表甚麼？
+2. 為甚麼接線改動時，程式也要同步改？
+3. showWarning() 比一串 digitalWrite() 有甚麼好處？

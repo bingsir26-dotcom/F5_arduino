@@ -1,66 +1,86 @@
-# 第 6 課：第一個電路模擬
+# 第 8 課：把已驗證的程式帶進 Tinkercad
 
 ## 今課可以做到甚麼？
 
-- 在 Tinkercad Circuits 建立一個新的 Arduino 電路模擬。
-- 找到 Arduino Uno、LED、電阻和導線等常用元件。
-- 開始與停止模擬，知道電路和程式可以先在螢幕中測試。
+- 建立一個 Tinkercad Circuits 專案，並切換到文字程式模式。
+- 在新 Circuit 重現單元一的 Serial Monitor 輸出。
+- 知道硬件加入前，先確認程式在新環境可以開始模擬。
 
 ## 開始前：想一想
 
-如果要試一個新燈號設計，你希望先買齊元件、接好真實電路才知道能否成功，還是先在電腦中試一次？
+你在單元一已完成「課室環境狀態報告」。現在打開一個新 Tinkercad Circuit，最先應該把 LED 接進去，還是先看看原本程式能否運行？
 
-模擬不是「假裝學習」；它是工程師在動手前，用來降低試錯成本的方法。
+工程實作不會一次改掉所有東西。先把已知可用的部分重現，才知道之後新增的問題來自哪裡。
 
-## 新概念：把實驗桌搬到螢幕中
+## 同一段規則，先在新環境確認一次
 
-![Tinkercad 工作流程](/images/tinkercad-workflow.svg)
+單元一的結果仍是本單元的起點：
 
-在 Tinkercad Circuits 中，你會重複做四件事：放入元件、接線、寫規則、開始模擬。這一課先熟悉工作區；下一課才會連接完整 LED 回路。
+~~~text
+狀態：溫度偏高，建議通風
+~~~
 
-## 跟著做：建立第一個 Circuit
+<div class="tinkercad-shot" role="note">
+  <span class="tinkercad-shot__tag">待補 Tinkercad 截圖 A</span>
+  <strong>一個只有 Arduino Uno 的 Circuit</strong>
+  <p>畫面要同時看見：Text 程式模式、Start Simulation 後的 Serial Monitor，以及至少一行狀態輸出。</p>
+  `建議檔名：lesson-08-serial-bridge.png`
+</div>
 
-1. 進入 Tinkercad，選擇 **Circuits**。
-2. 按 **Create new Circuit**。
-3. 從右方元件清單拖入 **Arduino Uno R3**。
-4. 再拖入一粒 **LED**、一個 **Resistor** 和幾條導線。
-5. 按 **Start Simulation**，再按 **Stop Simulation**。
-6. 把作品改名為：`姓名_第一個電路模擬`。
+## 跟著做：先重現文字結果
 
-現在 LED 還未必會亮，這是正常的。電路需要形成完整回路，下一課會完成它。
+1. 進入 **Tinkercad → Circuits → Create new Circuit**。
+2. 拖入 **Arduino Uno R3**；今天暫時不用加入 LED。
+3. 按 **Code**，把模式改為 **Text**。
+4. 貼上下面程式，按 **Start Simulation**，再打開 **Serial Monitor**。
+5. 將 Circuit 改名為「姓名_狀態報告到燈號」。
 
-## 再試一次：認識兩種工作方式
+~~~cpp
+float temperature = 28.5;
+bool classInUse = true;
 
-Tinkercad 的程式區可切換 **Blocks**、**Blocks + Text** 和 **Text**。
+void setup() {
+  Serial.begin(9600);
+  if (temperature > 26 && classInUse) {
+    Serial.println("狀態：溫度偏高，建議通風");
+  } else {
+    Serial.println("狀態：暫時不需要通風提示");
+  }
+}
 
-- 先用 Blocks 看清程式結構。
-- 使用 Blocks + Text 比較積木和程式文字。
-- 本單元主要會看 Text，因為它容易複製、修改和找錯。
+void loop() {
+}
+~~~
 
-不用急著背每個英文字；先知道「程式在告訴 Arduino 做甚麼」。
+**預期輸出：** `狀態：溫度偏高，建議通風`。
+
+## 再試一次：改變資料，而不是改變規則
+
+把 `bool classInUse = true;` 改成 `bool classInUse = false;`。確認文字會變成「暫時不需要通風提示」。這一步證明程式規則仍正常；下一課才把結果輸出到 LED。
 
 ## 易錯位
 
-| ✕ 常見情況 | 原因 | 修正方法 |
+| ✕ 錯誤 | 原因 | 修正方法 |
 | --- | --- | --- |
-| 找不到 Circuit | 仍停留在 3D Designs | 在左側切換到 Circuits |
-| 拖入了 Arduino 但看不見元件 | 工作區位置太遠 | 用滑鼠滾輪縮放，或按住空白位拖動 |
-| 模擬未開始就以為程式有問題 | 尚未按 Start Simulation | 先確認模擬按鈕的狀態 |
-| 用了很多元件但不知道用途 | 還未由任務需要出發 | 本課先只放 Arduino、LED、電阻和導線 |
+| 還在 Blocks 模式，卻貼上文字程式 | 積木模式不適合直接貼 C++ 程式 | 在 Code 視窗選擇 Text |
+| 忘記按 Start Simulation | 程式尚未開始 | 按開始模擬後才開 Serial Monitor |
+| 未加入 `Serial.begin(9600);` | 文字輸出未準備好 | 在 `setup()` 加入這一行 |
+| 一開始同時貼新程式、接 LED、改接線 | 出問題時很難找原因 | 今天只確認文字結果；LED 留待下一課 |
 
 ## 你來做
 
-- **基礎題**：建立並命名一個新 Circuit。
-- **標準題**：把四種元件放好，再開始和停止一次模擬。
-- **挑戰題**：用一句話寫下你想在第 13 課做的校園提示情境。
+- **基礎題**：成功在 Tinkercad 顯示一行自己的狀態文字。
+- **標準題**：把第 7 課的完整報告貼進去，確認可開始模擬。
+- **挑戰題**：將 `temperature` 改成 25.0，預測並驗證畫面會顯示哪個狀態。
 
 ## 本課小結
 
-- Tinkercad Circuits 讓我們先模擬再接觸真實元件。
-- 一個 Circuit 同時有電路與程式兩部分。
-- 「可以開始模擬」不代表電路已正確，只代表可以開始檢查。
+- 先把已驗證的程式帶到新環境，再加入新硬件。
+- Serial Monitor 仍是本單元的重要檢查工具。
+- 下一課只會新增一件事：讓一盞 LED 由程式控制。
 
 ## 離堂前 3 分鐘
 
-1. 為甚麼第一課不要求 LED 立即亮起？
-2. 你會用哪一個按鈕開始模擬？
+1. 為甚麼今天不急著接 LED？
+2. Start Simulation 前後，Serial Monitor 有甚麼不同？
+3. 改成 `classInUse = false` 後，應該看到哪一句？
